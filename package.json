@@ -11,6 +11,10 @@
   },
   "private": true,
   "dependencies": {
+    "axios": "^0.21.1",
+    "cookie-parser": "^1.4.5"
+  },
+  "devDependencies": {
     "@angular/animations": "~11.2.9",
     "@angular/common": "~11.2.9",
     "@angular/compiler": "~11.2.9",
@@ -21,9 +25,8 @@
     "@angular/router": "~11.2.9",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.3"
-  },
-  "devDependencies": {
+    "bootstrap": "^5.0.0-beta3",
+    "zone.js": "~0.11.3",
     "@angular-devkit/build-angular": "~0.1102.8",
     "@angular/cli": "~11.2.8",
     "@angular/compiler-cli": "~11.2.9",
