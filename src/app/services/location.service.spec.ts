@@ -13,4 +13,12 @@ describe('LocationService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('getCurrentPosition should return a promise', () => {
+    const location = {};
+    spyOn(service, 'getCurrentPosition').and.returnValue(Promise.resolve(location));
+    service.getCurrentPosition().then(res => {
+      expect(res).toEqual(location);
+    });
+  });
 });

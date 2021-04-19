@@ -3,7 +3,7 @@ import { ICurrent } from "./i-current";
 export interface IForecast       
 
 {
-  cod: 200,
+  cod: string,
   message: number,
   cnt: number,
   list: ICurrent[]
