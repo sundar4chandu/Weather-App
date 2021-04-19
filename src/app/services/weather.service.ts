@@ -16,7 +16,7 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  getCurrentTemp(lat: string, lon: string) {
+  getCurrentTemp(lat: number, lon: number) {
     let params = 'units=' + this.units +
       '&lat=' + lat +
       '&lon=' + lon +
@@ -24,7 +24,7 @@ export class WeatherService {
     return this.http.get<ICurrent>(this.currentTempUrl + params);
   }
 
-  getweatherForecast(lat:string, lon:string) {
+  getweatherForecast(lat:number, lon:number) {
     let params = 'units=' + this.units +
       '&lat=' + lat +
       '&lon=' + lon +
