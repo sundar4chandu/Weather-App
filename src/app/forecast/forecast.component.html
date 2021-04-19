@@ -1,38 +1,24 @@
 <div class="forecast-container m-2 p-2">
-    <!-- <div class="row m-2 p-2 rounded bg-light">
-        <h3>Local Weather Forecast</h3>
-    </div> -->
-    <div class="row">
-        <div class="col-2">
-            <div class="card bg-transparent mb-2">
-                <div class="spinner-border mx-auto" role="status" *ngIf="!selectedWeather"></div>
-                <p class="mx-auto" *ngIf="!selectedWeather">Loading...</p>
-                <div *ngIf="weatherForecast && selectedWeather">
-                    <img class="card-img" [src]="iconUrl + selectedWeather.weather[0].icon + iconFormat" alt="">
-                    <div class="card-img-overlay">
-                      <h1 class="card-title">{{selectedWeather.main.temp}}&deg;</h1>
-                    </div>
-                </div>
-              </div>
+    <div class="loading text-center" *ngIf="!weatherForecast">
+        <div class="spinner-border m-auto" role="status"></div>
+        <p class="mx-auto">Loading...</p>
+    </div>
+    <div class="row p-0">
+        <div class="col-3 selected" *ngIf="weatherForecast && selectedWeather">
             <div class="card bg-transparent current">
-                <div class="spinner-border mx-auto" role="status" *ngIf="!selectedWeather"></div>
-                <p class="mx-auto" *ngIf="!selectedWeather">Loading...</p>
-                <div class="current-card bg-none mx-auto" *ngIf="weatherForecast && selectedWeather">
-                    <img class="card-img" [src]="iconUrl + selectedWeather.weather[0].icon + iconFormat" alt="">
+                <div class="mx-auto">
+                    <img class="card-img" [src]="iconUrl + selectedWeather.weather[0].icon + '@2x.png'" alt="">
+                    <div>{{selectedWeather.weather[0].description | uppercase}}</div>
                     <h1 class="card-title">{{selectedWeather.main.temp}}&deg; <small>F</small></h1>
-                    <p class="card-text">
-                        {{selectedWeather.dt * 1000 | date : 'shortTime'}} <br>
-                        {{selectedWeather.dt * 1000 | date : 'mediumDate'}} <br>
-                        {{weatherForecast.city.name}}, {{weatherForecast.city.country}} <br>
-                        <small>WIND:</small>{{selectedWeather.wind.speed}} m/h
-                    </p>
+                    <p class="card-text">{{selectedWeather.dt * 1000 | date : 'MMM d, h:mm a'}} </p>
+                    <p>{{weatherForecast.city.name}}, {{weatherForecast.city.country}}</p>
+                    <p><small>Feels Like : </small>{{selectedWeather.main.feels_like}} &deg; <small>F</small></p>
+                    <p><small>Wind : </small>{{selectedWeather.wind.speed}} m/h </p>
+                    <p><small>Humidity : </small>{{selectedWeather.main.humidity}} %</p>
                 </div>
             </div>
         </div>
-        <div class="col-10">
-            <div class="card bg-transparent forecast table-responsive">
-                <div class="spinner-border mx-auto" role="status" *ngIf="!forecast.length"></div>
-                <p class="mx-auto" *ngIf="!forecast.length">Loading...</p>
+        <div class="forecast col-9 table-responsive">
                 <table class="table text-light forecast-table mb-0" *ngIf="forecast.length">
                     <thead>
                         <tr>
@@ -44,89 +30,18 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let list of forecast; index as i">
-                            <td class="date text-center" scope="row">
+                            <td class="date text-center p-1" scope="row">
                                 {{list[list.length - 1].dt * 1000 | date: 'MMM d'}}
                             </td>
-                            <td class="temp text-center" *ngFor="let item of forecast[i]"
-                                [ngClass]="{active: selectedWeather == item}" (click)="item? selectWeather(item) : ''" [innerHTML]="item.main? item.main.temp + '&deg;' : '' ">
+                            <td class="text-center p-1" *ngFor="let item of forecast[i]"
+                                [ngClass]="{active: selectedWeather == item, temp: item }"
+                                (click)="item? selectWeather(item) : ''">
+                                {{item.main? item.main.temp + '&deg;' : ''}} <br>
+                                <img [src]="iconUrl + item.weather[0].icon + '.png'" alt="" *ngIf="item.weather">
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 </div>
-<!-- <div class="forecast-container container padding">
-    <button type="button" class="btn btn-default back-button" routerLink="/current">
-        <span class="glyphicon glyphicon-chevron-left"></span> Back
-    </button>
-    <div class="current">
-        <div class="loading" *ngIf="!weatherForecast">
-            <div class="loader"></div>
-            <p>Hold tight ! We are fetching your location and weather forecast.</p>
-        </div>
-        <div class="info" *ngIf="weatherForecast">
-            <div>&nbsp;</div>
-            <div class="city">{{weatherForecast.city.name}}, {{weatherForecast.city.country}}
-                <img *ngIf="selectedWeather" [src]="iconUrl + selectedWeather.weather[0].icon + iconFormat" alt="">
-            </div>
-            <div class="selected-weather">
-                <h4 *ngIf="selectedWeather">{{selectedWeather.dt * 1000 | date : 'shortTime'}}</h4>
-                <div class="temp" *ngIf="selectedWeather">{{selectedWeather.main.temp}}&deg; <small>F</small></div>
-                <div class="wind" *ngIf="selectedWeather"><small><small>WIND:</small></small>
-                    {{selectedWeather.wind.speed}} m/h</div>
-            </div>
-            <div>&nbsp;</div>
-        </div>
-    </div>
-    <div class="row" *ngIf="weatherForecast">
-        <div class="grid-button">
-            <button type="button" class="btn pull-right" (click)="toggleView()">
-                <span *ngIf="tableView" class="glyphicon glyphicon-th"></span>
-                <span *ngIf="!tableView" class="glyphicon glyphicon-th-list"></span>
-            </button>
-        </div>
-    </div>
-    <div class="future table-responsive" [ngClass]="{hidden: !tableView}">
-        <table class="table table-bordered table-condensed forecast-table" *ngIf="forecast.length"
-            [hidden]="!tableView">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th class="table-head" *ngFor="let item of forecast[1]">
-                        <h4>{{item.dt * 1000 | date : 'shortTime'}}</h4>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let list of forecast; index as i">
-                    <td class="date">
-                        <h3>{{list[list.length - 1].dt * 1000 | date: 'MMM d'}}</h3>
-                    </td>
-                    <td class="day table-data" *ngFor="let item of forecast[i]"
-                        [ngClass]="{active: selectedWeather == item}" (click)="selectWeather(item)">
-                        <div *ngIf="item.main">{{item.main.temp}}&deg; <small>F</small></div>
-                        <img *ngIf="item.weather" [src]="iconUrl + item.weather[0].icon + iconFormat" alt="">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="future future-grid" [ngClass]="{hidden: tableView}">
-        <ul class="list-group" *ngFor="let list of forecast; index as i">
-            <li>
-                <div class="card" *ngFor="let item of forecast[i]" [ngClass]="{active: selectedWeather == item}"
-                    (click)="selectWeather(item)">
-                    <div class="content" *ngIf="item.main">
-                        <h3 *ngIf="item.main">{{item.dt * 1000 | date: 'MMM d'}} <br> {{item.dt * 1000 | date:
-                            'shortTime'}} </h3>
-                        <h4 *ngIf="item.main">{{item.main.temp}}&deg; <p>F</p>
-                        </h4>
-                        <img *ngIf="item.weather" [src]="iconUrl + item.weather[0].icon + iconFormat" alt="">
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div> -->

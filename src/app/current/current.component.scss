@@ -1,5 +1,22 @@
-.container-fluid{
-    background-color: #86B3D1;
-    // width: 100vw;
-    height: 90vh;
+.container{
+    height: calc(100vh - 150px);
+    margin: 2.5% auto;
+    width: 20%;
+    min-width: 320px;
+    box-shadow: 2px 2px 10px rgb(14 84 141);
+    background-color: #e7e7e74b;
+}
+
+.card-header{
+    background-color: rgba(9, 61, 104, 0.8);
+}
+.card p{
+    margin-bottom: 8px;
+}
+.temp{
+    margin-top: 25%
+}
+
+.card-footer img{
+    height: 50px;
 }
