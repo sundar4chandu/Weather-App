@@ -17,7 +17,6 @@ export class ForecastComponent implements OnInit {
   public errorMsg: string = '';
   public forecast: any = [];
   public iconUrl = 'http://openweathermap.org/img/wn/';
-  public iconFormat = '@2x.png';
   public selectedWeather: any;
   public tableView = true;
 

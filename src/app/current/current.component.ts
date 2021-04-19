@@ -30,7 +30,7 @@ export class CurrentComponent implements OnInit {
     this.locationService.getCurrentPosition().then(location => {
       this.weatherService.getCurrentTemp(location.lat, location.lng).subscribe((res: ICurrent) => {
         this.weather = res;
-        this.weather.weather[0].icon = 'http://openweathermap.org/img/w/' + res.weather[0].icon + '.png';
+        this.weather.weather[0].icon = 'http://openweathermap.org/img/wn/' + res.weather[0].icon + '@2x.png';
       });
     }).catch(err => {
       const alertMsg = 'Please allow location access.';

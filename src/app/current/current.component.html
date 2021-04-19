@@ -1,28 +1,39 @@
-<div class="container current-container">
-    <div class="current">
-        <div class="info">
-            <div class="loading" *ngIf="!weather">
-                <div class="loader"></div>
-                <p>Fetching your location and weather</p>
+<div class="container p-0 text-center">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card-header text-center">
+                Current Weather
             </div>
-            <div *ngIf="weather">
-                <div class="city"> {{weather.name}}, {{weather.sys.country}}
-                    <img [src]="weather.icon" alt="">
+            <div class="loading m-2" *ngIf="!weather">
+                <div class="spinner-border" role="status"></div>
+                <p>Loading...</p>
+            </div>
+            <img *ngIf="weather" [src]="weather.weather[0].icon" alt="">
+            <div class="card border-0 m-2 bg-transparent" *ngIf="weather">
+                <div>{{weather.weather[0].description | uppercase}}</div>
+                <h1 class="card-title">{{weather.main.temp}}&deg; <small>F</small></h1>
+                <p class="card-text">{{weather.dt * 1000 | date : 'MMM d, h:mm a'}} </p>
+                <p>{{weather.name}}, {{weather.sys.country}}</p>
+                <p><small>Feels Like : </small>{{weather.main.feels_like}} &deg; <small>F</small></p>
+                <p><small>Wind : </small>{{weather.wind.speed}} m/h </p>
+                <p><small>Humidity : </small>{{weather.main.humidity}} %</p>
+                <div class="card-footer border-0">
+                    <div class="float-start">
+                        <span>
+                            <p>Sunrise</p>
+                            <img src="assets/sunrise.svg" alt="">
+                            <p>{{weather.sys.sunrise * 1000 | date: 'h:mm a'}}</p>
+                        </span>
+                    </div>
+                    <div class="float-end">
+                        <span>
+                            <p>Sunset</p>
+                            <img src="assets/sunset.svg" alt="">
+                            <p>{{weather.sys.sunset * 1000 | date: 'h:mm a'}}</p>
+                        </span>
+                    </div>
                 </div>
-                <div class="date">{{weather.dt | date : 'MMM dd'}}, <small>{{weather.dt * 1000 | date : 'shortTime'}}</small></div>
-                <div class="temp">{{weather.main.temp}}&deg; <small>F</small></div>
-                <div class="wind"><small><small>WIND:</small></small> {{weather.wind.speed}} {{wind.units}}/h</div>
-                <div class="min-max padding">
-                    <div class="pull-left"><i>Min: {{weather.main.temp_min}}</i></div>
-                    <div class="pull-right"><i>Max: {{weather.main.temp_max}}</i></div>
-                </div>
             </div>
-            <div class="margin padding text-center">
-                <button class="btn btn-info btn-lg forecast-button" [routerLink]="['/forecast']">See Forecast</button>
-            </div>
-        </div>
-        <div class="location-error" *ngIf="errorMsg">
-            {{errorMsg}}
         </div>
     </div>
 </div>
